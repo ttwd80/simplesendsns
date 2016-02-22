@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.2.xsd">
+
+	<bean id="aws.client.configuration" class="com.amazonaws.ClientConfiguration">
+		<property name="socketTimeout" value="2500" />
+		<property name="connectionTimeout" value="2500" />
+		<property name="maxErrorRetry" value="1" />
+		<property name="clientExecutionTimeout" value="0" />
+		<property name="connectionMaxIdleMillis" value="60000" />
+		<property name="connectionTTL" value="-1" />
+		<property name="maxConnections" value="50" />
+		<property name="requestTimeout" value="0" />
+		<property name="responseMetadataCacheSize" value="50" />
+		<property name="useTcpKeepAlive" value="true" />
+		<property name="useGzip" value="true" />
+		<property name="useReaper" value="true" />
+	</bean>
+
+	<bean id="region" class="com.amazonaws.regions.RegionUtils"
+		factory-method="getRegion">
+		<constructor-arg value="${aws.region}" />
+	</bean>
+
+	<bean id="awsCredentials" class="com.amazonaws.auth.BasicAWSCredentials">
+		<constructor-arg index="0" value="${aws.accesskey}" />
+		<constructor-arg index="1" value="${aws.secretkey}" />
+	</bean>
+
+	<bean id="amazonSNS" class="com.amazonaws.services.sns.AmazonSNSClient">
+		<constructor-arg ref="awsCredentials" />
+		<constructor-arg ref="aws.client.configuration" />
+		<property name="region" ref="region"></property>
+	</bean>
+
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:aws.properties</value>
+			</list>
+		</property>
+	</bean>
+</beans>

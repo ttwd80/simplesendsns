@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration>
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%date{ISO8601} %level %t %logger %msg: %n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework" level="WARN" />
+	<logger name="org.springframework.context.annotation" level="INFO" />
+	<logger name="org.apache.http.wire" level="INFO" />
+	<logger name="org.apache.http.impl.conn" level="DEBUG" />
+	<logger name="com.amazonaws.http.impl.client" level="DEBUG" />
+	<logger name="org.apache.http.client.protocol" level="DEBUG" />
+	<logger name="com.amazonaws.request" level="DEBUG" />
+	<logger name="org.apache.http.impl.conn.DefaultClientConnection"
+		level="INFO" />
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration> 
